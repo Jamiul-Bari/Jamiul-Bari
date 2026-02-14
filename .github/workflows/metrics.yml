@@ -1,0 +1,30 @@
+name: Metrics
+on:
+  # Schedule updates (daily)
+  schedule: [{cron: "0 0 * * *"}]
+  # Lines below let you run workflow manually and on each commit
+  workflow_dispatch:
+  push: {branches: ["master"]}
+jobs:
+  github-metrics:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: lowlighter/metrics@latest
+        with:
+          # Your GitHub token
+          # You need to create a Personal Access Token (PAT) with 'repo' and 'read:org' scopes
+          # and add it to your repository Secrets as METRICS_TOKEN
+          token: ${{ secrets.METRICS_TOKEN }}
+
+          # Options
+          user: Jamiul-Bari
+          template: classic
+          base: header, activity, community, repositories, metadata
+          config_timezone: Asia/Dhaka
+          
+          # Plugins
+          plugin_languages: yes
+          plugin_languages_ignored: html, css
+          plugin_streak: yes
